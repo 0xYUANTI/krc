@@ -75,8 +75,8 @@ get_index(Pid, Bucket, Index, Key, Timeout) ->
                               Timeout,
                               infinity) %gen_server call
   of
-    {ok, Keys}       -> {ok, [krc_obj:decode(K) || K <- Keys]};
-    {error, _} = Err -> Err
+    {ok, {keys, Keys}} -> {ok, [krc_obj:decode(K) || K <- Keys]};
+    {error, _} = Err   -> Err
   end.
 
 get_index(Pid, Bucket, Index, Lower, Upper, Timeout) ->
@@ -91,8 +91,8 @@ get_index(Pid, Bucket, Index, Lower, Upper, Timeout) ->
                               Timeout,
                               infinity) %gen_server call
   of
-    {ok, Keys}       -> {ok, [krc_obj:decode(K) || K <- Keys]};
-    {error, _} = Err -> Err
+    {ok, {keys, Keys}} -> {ok, [krc_obj:decode(K) || K <- Keys]};
+    {error, _} = Err   -> Err
   end.
 
 put(Pid, Obj, Options, Timeout) ->
