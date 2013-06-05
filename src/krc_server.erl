@@ -316,10 +316,14 @@ out_of_time_test() ->
     krc_test:spawn_async(?thunk({error, notfound} = get_req())),
     krc_test:spawn_sync(?thunk({error, timeout} = get_req())))).
 
-timeout_test() ->
-  krc_test:with_mock(?thunk(
-    krc_mock_client:lag(3000),
-    krc_test:spawn_sync(?thunk({error, timeout} = get_req())))).
+timeout_test_() ->
+  {timeout, ?CALL_TIMEOUT+1000,
+   ?thunk(
+      krc_test:with_mock(
+        ?thunk(
+           krc_mock_client:lag(?TIMEOUT),
+           krc_test:spawn_sync(?thunk({error, timeout} = get_req()))))
+     )}.
 
 failures_test() ->
   ?MODULE:start([{riak_port, 6666}]).
