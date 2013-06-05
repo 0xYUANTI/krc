@@ -166,14 +166,14 @@ resolve(#krc_obj{val=Vs, indices=Is} = Obj, F) ->
 %% used for bucket names, keys, and values).
 -spec encode(_) -> binary().
 encode(X) ->
-  {M,F} = s2_env:get_arg([], ?APP, encoder, {erlang, term_to_binary}),
+  {M,F} = s2_env:get_arg([], ?APP, encode, {erlang, term_to_binary}),
   M:F(X).
 
 -spec decode(binary()) -> _.
 decode(<<>>) ->
   ?TOMBSTONE;
 decode(X) ->
-  {M,F} = s2_env:get_arg([], ?APP, decoder, {erlang, binary_to_term}),
+  {M,F} = s2_env:get_arg([], ?APP, decode, {erlang, binary_to_term}),
   M:F(X).
 
 %% Index names (Riak uses strings with a type suffix; we determine the
